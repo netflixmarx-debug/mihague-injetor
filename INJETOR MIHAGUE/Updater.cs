@@ -11,7 +11,8 @@ namespace INJETOR_MIHAGUE
     internal static class Updater
     {
         // ── Versão atual embutida no código ─────────────────────────────────
-        private const string CURRENT_VERSION = "1.0.0";
+        private const string CURRENT_VERSION = "1.0.1";
+
 
         // ── URL do version.json no seu repositório GitHub ───────────────────
         // Troque "SEU_USUARIO" e "SEU_REPOSITORIO" pelo seu user e repo do GitHub.
