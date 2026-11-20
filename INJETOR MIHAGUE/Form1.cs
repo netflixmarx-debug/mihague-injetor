@@ -56,13 +56,17 @@ namespace INJETOR_MIHAGUE
         {
             try
             {
+                // Força TLS 1.2 — necessário para GitHub
+                System.Net.ServicePointManager.SecurityProtocol =
+                    System.Net.SecurityProtocolType.Tls12;
+
                 var currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
                 string currentStr  = $"{currentVersion.Major}.{currentVersion.Minor}.{currentVersion.Build}";
 
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    wc.Headers.Add("Cache-Control", "no-cache");
                     wc.Headers.Add("User-Agent", "MIHAGUEyt-Injetor");
+                    wc.Headers.Add("Cache-Control", "no-cache");
                     string json = wc.DownloadString(VERSION_URL);
 
                     string remoteVersion = ExtractJsonValue(json, "version");
