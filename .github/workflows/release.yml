@@ -19,11 +19,11 @@ jobs:
       - name: Restaurar pacotes NuGet
         run: nuget restore "INJETOR MIHAGUE.sln"
 
-      - name: Build Release
+      - name: Build Release x64
         run: |
           msbuild "INJETOR MIHAGUE.sln" `
             /p:Configuration=Release `
-            /p:Platform="Any CPU"
+            /p:Platform="x64"
 
       - name: Pegar versão do AssemblyInfo
         id: get_version
@@ -41,7 +41,7 @@ jobs:
         with:
           tag_name: ${{ steps.get_version.outputs.TAG }}
           name: "MIHAGUEyt Injetor ${{ steps.get_version.outputs.TAG }}"
-          files: "INJETOR MIHAGUE/bin/Release/MIHAGUEyt Injetor.exe"
+          files: "INJETOR MIHAGUE/bin/x64/Release/MIHAGUEyt Injetor.exe"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
