@@ -17,23 +17,22 @@ jobs:
         uses: microsoft/setup-msbuild@v2
 
       - name: Restaurar pacotes NuGet
-        run: nuget restore "INJETOR MIHAGUE/INJETOR MIHAGUE.sln"
+        run: nuget restore "INJETOR MIHAGUE.sln"
 
       - name: Build Release
         run: |
-          msbuild "INJETOR MIHAGUE/INJETOR MIHAGUE.sln" `
+          msbuild "INJETOR MIHAGUE.sln" `
             /p:Configuration=Release `
-            /p:Platform="Any CPU" `
-            /p:OutputPath=bin\Release
+            /p:Platform="Any CPU"
 
       - name: Pegar versão do AssemblyInfo
         id: get_version
         shell: pwsh
         run: |
-          $content = Get-Content "INJETOR MIHAGUE/INJETOR MIHAGUE/Properties/AssemblyInfo.cs" -Raw
+          $content = Get-Content "INJETOR MIHAGUE/Properties/AssemblyInfo.cs" -Raw
           $match   = [regex]::Match($content, 'AssemblyVersion\("([^"]+)"\)')
-          $full    = $match.Groups[1].Value          # ex: 1.0.2.0
-          $version = ($full -split '\.')[0..2] -join '.'  # ex: 1.0.2
+          $full    = $match.Groups[1].Value
+          $version = ($full -split '\.')[0..2] -join '.'
           echo "VERSION=$version" >> $env:GITHUB_OUTPUT
           echo "TAG=v$version"    >> $env:GITHUB_OUTPUT
 
@@ -42,7 +41,7 @@ jobs:
         with:
           tag_name: ${{ steps.get_version.outputs.TAG }}
           name: "MIHAGUEyt Injetor ${{ steps.get_version.outputs.TAG }}"
-          files: "INJETOR MIHAGUE/INJETOR MIHAGUE/bin/Release/MIHAGUEyt Injetor.exe"
+          files: "INJETOR MIHAGUE/bin/Release/MIHAGUEyt Injetor.exe"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -51,8 +50,8 @@ jobs:
         run: |
           $version = "${{ steps.get_version.outputs.VERSION }}"
           $tag     = "${{ steps.get_version.outputs.TAG }}"
-          $url     = "https://github.com/netflixmarx-debug/mihague-injetor/releases/download/$tag/MIHAGUEyt-Injetor.exe"
-          $json    = "{\n  `"version`": `"$version`",\n  `"url`": `"$url`"\n}\n"
+          $url     = "https://github.com/netflixmarx-debug/mihague-injetor/releases/download/$tag/MIHAGUEyt%20Injetor.exe"
+          $json    = "{`n  `"version`": `"$version`",`n  `"url`": `"$url`"`n}`n"
           [System.IO.File]::WriteAllText("version.json", $json)
 
       - name: Commit do version.json atualizado
