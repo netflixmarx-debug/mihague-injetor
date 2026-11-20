@@ -43,12 +43,6 @@ namespace INJETOR_MIHAGUE
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-
-                // Checa update antes de abrir o form.
-                // Se houver update e o usuário confirmar, o processo se fecha aqui.
-                if (Updater.CheckAndApply())
-                    return;
-
                 Run();
             }
             catch (Exception ex)

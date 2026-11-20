@@ -43,126 +43,14 @@ namespace INJETOR_MIHAGUE
             };
             _blinkTimer.Start();
 
-            // Verifica atualização em background
-            System.Threading.Tasks.Task.Run(() => CheckForUpdate());
-        }
-
-        // ════════════════════════════════════════════════════════════════════
-        // AUTO-UPDATE — consulta version.json no GitHub
-        // ════════════════════════════════════════════════════════════════════
-        private const string VERSION_URL = "https://raw.githubusercontent.com/netflixmarx-debug/mihague-injetor/main/version.json";
-
-        private void CheckForUpdate()
-        {
-            try
+            // Verifica atualização via Updater.cs
+            Updater.CheckAndApply((text, color) =>
             {
-                // Força TLS 1.2 — necessário para GitHub
-                System.Net.ServicePointManager.SecurityProtocol =
-                    System.Net.SecurityProtocolType.Tls12;
-
-                var currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                string currentStr  = $"{currentVersion.Major}.{currentVersion.Minor}.{currentVersion.Build}";
-
-                using (System.Net.WebClient wc = new System.Net.WebClient())
-                {
-                    wc.Headers.Add("User-Agent", "MIHAGUEyt-Injetor");
-                    wc.Headers.Add("Cache-Control", "no-cache");
-                    string json = wc.DownloadString(VERSION_URL);
-
-                    string remoteVersion = ExtractJsonValue(json, "version");
-                    string downloadUrl   = ExtractJsonValue(json, "url");
-
-                    if (string.IsNullOrEmpty(remoteVersion) || string.IsNullOrEmpty(downloadUrl))
-                    {
-                        this.Invoke((Action)(() =>
-                            SetStatus("  ● Erro ao ler version.json", Color.FromArgb(255, 70, 70))));
-                        return;
-                    }
-
-                    if (IsNewerVersion(remoteVersion, currentStr))
-                    {
-                        this.Invoke((Action)(() =>
-                        {
-                            MessageBox.Show(
-                                "⚠️ ATUALIZAÇÃO OBRIGATÓRIA ⚠️\n\n" +
-                                "Sua versão está desatualizada: v" + currentStr + "\n" +
-                                "Versão atual: v" + remoteVersion + "\n\n" +
-                                "Você DEVE atualizar para continuar usando.\n" +
-                                "Versões antigas podem causar BANIMENTO.",
-                                "Atualização Obrigatória",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
-
-                            DownloadAndUpdate(downloadUrl);
-                        }));
-                    }
-                    else
-                    {
-                        this.Invoke((Action)(() =>
-                            SetStatus("  ● Versão atualizada: v" + currentStr, Color.FromArgb(0, 200, 80))));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                this.Invoke((Action)(() =>
-                    SetStatus("  ● Sem conexão ou erro: " + ex.Message, Color.FromArgb(255, 70, 70))));
-            }
-        }
-
-        private void DownloadAndUpdate(string url)
-        {
-            try
-            {
-                SetStatus("  ● Baixando atualização...", Color.FromArgb(255, 200, 0));
-
-                string exePath  = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                string tempPath = exePath + ".new.exe";
-                string batPath  = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "mihague_update.bat");
-
-                using (System.Net.WebClient wc = new System.Net.WebClient())
-                    wc.DownloadFile(url, tempPath);
-
-                string bat = "@echo off\r\n" +
-                             "timeout /t 2 /nobreak >nul\r\n" +
-                             "move /y \"" + tempPath + "\" \"" + exePath + "\"\r\n" +
-                             "start \"\" \"" + exePath + "\"\r\n" +
-                             "del \"%~f0\"\r\n";
-
-                System.IO.File.WriteAllText(batPath, bat);
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName       = batPath,
-                    CreateNoWindow = true,
-                    WindowStyle    = System.Diagnostics.ProcessWindowStyle.Hidden
-                });
-
-                Application.Exit();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao atualizar: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private string ExtractJsonValue(string json, string key)
-        {
-            string search = "\"" + key + "\"";
-            int idx = json.IndexOf(search);
-            if (idx < 0) return null;
-            int colon = json.IndexOf(':', idx);
-            if (colon < 0) return null;
-            int q1 = json.IndexOf('"', colon + 1);
-            if (q1 < 0) return null;
-            int q2 = json.IndexOf('"', q1 + 1);
-            if (q2 < 0) return null;
-            return json.Substring(q1 + 1, q2 - q1 - 1);
-        }
-
-        private bool IsNewerVersion(string remote, string current)
-        {
-            try { return new Version(remote) > new Version(current); }
-            catch { return false; }
+                if (this.InvokeRequired)
+                    this.Invoke((Action)(() => SetStatus(text, color)));
+                else
+                    SetStatus(text, color);
+            });
         }
 
         // ════════════════════════════════════════════════════════════════════
