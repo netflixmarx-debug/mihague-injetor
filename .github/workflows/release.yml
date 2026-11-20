@@ -1,0 +1,65 @@
+name: Build e Release Automático
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restaurar pacotes NuGet
+        run: nuget restore "INJETOR MIHAGUE/INJETOR MIHAGUE.sln"
+
+      - name: Build Release
+        run: |
+          msbuild "INJETOR MIHAGUE/INJETOR MIHAGUE.sln" `
+            /p:Configuration=Release `
+            /p:Platform="Any CPU" `
+            /p:OutputPath=bin\Release
+
+      - name: Pegar versão do AssemblyInfo
+        id: get_version
+        shell: pwsh
+        run: |
+          $content = Get-Content "INJETOR MIHAGUE/INJETOR MIHAGUE/Properties/AssemblyInfo.cs" -Raw
+          $match   = [regex]::Match($content, 'AssemblyVersion\("([^"]+)"\)')
+          $full    = $match.Groups[1].Value          # ex: 1.0.2.0
+          $version = ($full -split '\.')[0..2] -join '.'  # ex: 1.0.2
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+          echo "TAG=v$version"    >> $env:GITHUB_OUTPUT
+
+      - name: Criar Release e fazer upload do EXE
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.get_version.outputs.TAG }}
+          name: "MIHAGUEyt Injetor ${{ steps.get_version.outputs.TAG }}"
+          files: "INJETOR MIHAGUE/INJETOR MIHAGUE/bin/Release/MIHAGUEyt Injetor.exe"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Atualizar version.json automaticamente
+        shell: pwsh
+        run: |
+          $version = "${{ steps.get_version.outputs.VERSION }}"
+          $tag     = "${{ steps.get_version.outputs.TAG }}"
+          $url     = "https://github.com/netflixmarx-debug/mihague-injetor/releases/download/$tag/MIHAGUEyt-Injetor.exe"
+          $json    = "{\n  `"version`": `"$version`",\n  `"url`": `"$url`"\n}\n"
+          [System.IO.File]::WriteAllText("version.json", $json)
+
+      - name: Commit do version.json atualizado
+        shell: pwsh
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add version.json
+          git diff --staged --quiet || git commit -m "chore: atualiza version.json para ${{ steps.get_version.outputs.VERSION }}"
+          git push

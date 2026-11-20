@@ -1,0 +1,13 @@
+# Build
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# Debug symbols
+*.pdb
+
+# NuGet (mantém packages.config mas ignora os downloads)
+packages/*/
+!packages/repositories.config

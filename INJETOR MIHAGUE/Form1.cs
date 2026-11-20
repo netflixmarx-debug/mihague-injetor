@@ -1,0 +1,246 @@
+﻿using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Windows.Forms;
+
+namespace INJETOR_MIHAGUE
+{
+    public partial class Form1 : Form
+    {
+        // ════════════════════════════════════════════════════════════════════
+        // PISCAR + 3D — paint do lblTitle com efeito overlay mesclado
+        // ════════════════════════════════════════════════════════════════════
+        private Timer _blinkTimer;
+        private bool  _blinkRed = true;
+
+        public Form1()
+        {
+            InitializeComponent();
+
+            // Carrega o ícone embutido no assembly
+            using (Stream s = Assembly.GetExecutingAssembly()
+                                      .GetManifestResourceStream("INJETOR_MIHAGUE.MIHAGUEyt_Corp.ico"))
+            {
+                if (s != null)
+                    this.Icon = new Icon(s);
+            }
+
+            _blinkTimer          = new Timer();
+            _blinkTimer.Interval = 500;
+            _blinkTimer.Tick    += (s, e) =>
+            {
+                _blinkRed = !_blinkRed;
+                lblTitle.Invalidate();
+            };
+            _blinkTimer.Start();
+        }
+
+        // ════════════════════════════════════════════════════════════════════
+        // PAINT lblTitle — "BigZin Store" 3D mesclado vermelho/branco
+        // ════════════════════════════════════════════════════════════════════
+        private void lblTitle_Paint(object sender, PaintEventArgs e)
+        {
+            Label    lbl = (Label)sender;
+            Graphics g   = e.Graphics;
+            g.SmoothingMode     = SmoothingMode.AntiAlias;
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+
+            // Fundo sólido — evita artefato de transparência
+            g.Clear(Color.FromArgb(18, 18, 18));
+
+            string text = "MIHAGUEyt";
+
+            Color colorFront = _blinkRed ? Color.FromArgb(220, 30, 30) : Color.White;
+            Color colorBack  = _blinkRed ? Color.White : Color.FromArgb(220, 30, 30);
+
+            // Usa uma cópia da fonte — nunca dar Dispose na fonte do controle
+            using (Font f = new Font(lbl.Font.FontFamily, lbl.Font.Size, lbl.Font.Style, GraphicsUnit.Point))
+            {
+                SizeF sz = g.MeasureString(text, f);
+                float x  = (lbl.Width  - sz.Width)  / 2f;
+                float y  = (lbl.Height - sz.Height) / 2f;
+
+                // Sombra — 2px deslocado, cor secundária semitransparente
+                using (Brush shadow = new SolidBrush(Color.FromArgb(160, colorBack)))
+                    g.DrawString(text, f, shadow, x + 2f, y + 2f);
+
+                // Intermediária — 1px deslocado
+                using (Brush mid = new SolidBrush(Color.FromArgb(220, colorBack)))
+                    g.DrawString(text, f, mid, x + 1f, y + 1f);
+
+                // Frontal — posição original
+                using (Brush front = new SolidBrush(colorFront))
+                    g.DrawString(text, f, front, x, y);
+            }
+        }
+
+        // ════════════════════════════════════════════════════════════════════
+        // WIN32
+        // ════════════════════════════════════════════════════════════════════
+        private const uint MEM_COMMIT     = 0x1000;
+        private const uint PAGE_READWRITE = 0x04;
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern IntPtr OpenProcess(uint dwDesiredAccess, bool bInheritHandle, int dwProcessId);
+
+        [DllImport("kernel32.dll")]
+        private static extern IntPtr GetModuleHandle(string lpModuleName);
+
+        [DllImport("kernel32.dll")]
+        private static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, IntPtr size, uint type, uint protect);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr address, byte[] buffer, uint size, out IntPtr written);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr attributes,
+            IntPtr stackSize, IntPtr startAddress, IntPtr parameter, uint flags, IntPtr threadId);
+
+        [DllImport("kernel32.dll")]
+        private static extern bool CloseHandle(IntPtr hObject);
+
+        // ════════════════════════════════════════════════════════════════════
+        // PAINT — borda fina ao redor do form
+        // ════════════════════════════════════════════════════════════════════
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            Rectangle rect = new Rectangle(0, 0, ClientSize.Width - 1, ClientSize.Height - 1);
+            using (Pen pen = new Pen(Color.FromArgb(100, 60, 120, 180), 1))
+                g.DrawRectangle(pen, rect);
+        }
+
+        // ════════════════════════════════════════════════════════════════════
+        // HELPERS
+        // ════════════════════════════════════════════════════════════════════
+        private void SetStatus(string text, Color color)
+        {
+            status.Text      = text;
+            status.ForeColor = color;
+        }
+
+        // ════════════════════════════════════════════════════════════════════
+        // INJEÇÃO — extrai DLL embutida e injeta
+        // ════════════════════════════════════════════════════════════════════
+        private string ExtractEmbeddedDll()
+        {
+            string tempDllPath = Path.Combine(Path.GetTempPath(), "MIHAGUEyt.dll");
+            using (Stream stream = Assembly.GetExecutingAssembly()
+                                           .GetManifestResourceStream("INJETOR_MIHAGUE.MIHAGUEyt.dll"))
+            {
+                if (stream == null)
+                    throw new Exception("DLL embutida não encontrada no recurso.");
+                byte[] bytes = new byte[stream.Length];
+                stream.Read(bytes, 0, bytes.Length);
+                File.WriteAllBytes(tempDllPath, bytes);
+            }
+            return tempDllPath;
+        }
+
+        private bool InjectIntoProcess(string processName, string tempDllPath)
+        {
+            Process[] processes = Process.GetProcessesByName(processName);
+            if (processes.Length == 0)
+                return false;
+
+            Process target  = processes[0];
+            IntPtr hProcess = OpenProcess(0x1F0FFF, false, target.Id);
+            if (hProcess == IntPtr.Zero)
+            {
+                MessageBox.Show(
+                    "Processo encontrado: " + processName + "\nFalha ao abrir. Código: " + Marshal.GetLastWin32Error(),
+                    "Erro OpenProcess", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            IntPtr loadLibrary = GetProcAddress(GetModuleHandle("kernel32.dll"), "LoadLibraryA");
+            if (loadLibrary == IntPtr.Zero) { CloseHandle(hProcess); return false; }
+
+            IntPtr alloc = VirtualAllocEx(hProcess, IntPtr.Zero, (IntPtr)(tempDllPath.Length + 1), MEM_COMMIT, PAGE_READWRITE);
+            if (alloc == IntPtr.Zero) { CloseHandle(hProcess); return false; }
+
+            byte[] bytes = Encoding.ASCII.GetBytes(tempDllPath + "\0");
+            if (!WriteProcessMemory(hProcess, alloc, bytes, (uint)bytes.Length, out _))
+            { CloseHandle(hProcess); return false; }
+
+            IntPtr thread = CreateRemoteThread(hProcess, IntPtr.Zero, IntPtr.Zero, loadLibrary, alloc, 0, IntPtr.Zero);
+            if (thread == IntPtr.Zero) { CloseHandle(hProcess); return false; }
+
+            CloseHandle(hProcess);
+            return true;
+        }
+
+        // Tenta todas as variações de processo do MSI App Player e BlueStacks.
+        private bool InjectDLL()
+        {
+            try
+            {
+                string tempDllPath = ExtractEmbeddedDll();
+
+                // MSI App Player — variações por versão
+                if (InjectIntoProcess("MEmuHeadless", tempDllPath)) return true;
+                if (InjectIntoProcess("MEmu", tempDllPath))         return true;
+                if (InjectIntoProcess("MEmuAndroid", tempDllPath))  return true;
+
+                // BlueStacks — variações por versão
+                if (InjectIntoProcess("HD-Player", tempDllPath))    return true;
+                if (InjectIntoProcess("Bluestacks", tempDllPath))   return true;
+                if (InjectIntoProcess("BstkSVC", tempDllPath))      return true;
+
+                MessageBox.Show(
+                    "Nenhum emulador encontrado.\nAbra o MSI App Player ou BlueStacks e tente novamente.",
+                    "Processo não encontrado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message, "Exceção", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        // ════════════════════════════════════════════════════════════════════
+        // TOGGLE 1 — Enable ESP Line → injeta e fecha ao sucesso
+        // ════════════════════════════════════════════════════════════════════
+        private void toggle1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!toggle1.Checked) return;
+
+            SetStatus("  ● Injetando...", Color.FromArgb(255, 200, 0));
+
+            bool ok = InjectDLL();
+            if (ok)
+            {
+                SetStatus("  ● Injeção concluída!", Color.FromArgb(0, 220, 80));
+
+                // Aguarda 1 segundo e fecha
+                Timer closeTimer = new Timer();
+                closeTimer.Interval = 1000;
+                closeTimer.Tick += (cs, ce) =>
+                {
+                    closeTimer.Stop();
+                    closeTimer.Dispose();
+                    Application.Exit();
+                };
+                closeTimer.Start();
+            }
+            else
+            {
+                SetStatus("  ● Falha na injeção.", Color.FromArgb(255, 70, 70));
+                toggle1.Checked = false;
+            }
+        }
+    }
+}
