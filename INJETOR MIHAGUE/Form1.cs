@@ -68,7 +68,11 @@ namespace INJETOR_MIHAGUE
                     string downloadUrl   = ExtractJsonValue(json, "url");
 
                     if (string.IsNullOrEmpty(remoteVersion) || string.IsNullOrEmpty(downloadUrl))
+                    {
+                        this.Invoke((Action)(() =>
+                            SetStatus("  ● Erro ao ler version.json", Color.FromArgb(255, 70, 70))));
                         return;
+                    }
 
                     if (IsNewerVersion(remoteVersion, currentStr))
                     {
@@ -87,9 +91,18 @@ namespace INJETOR_MIHAGUE
                             DownloadAndUpdate(downloadUrl);
                         }));
                     }
+                    else
+                    {
+                        this.Invoke((Action)(() =>
+                            SetStatus("  ● Versão atualizada: v" + currentStr, Color.FromArgb(0, 200, 80))));
+                    }
                 }
             }
-            catch { /* silencioso — sem internet não trava */ }
+            catch (Exception ex)
+            {
+                this.Invoke((Action)(() =>
+                    SetStatus("  ● Sem conexão ou erro: " + ex.Message, Color.FromArgb(255, 70, 70))));
+            }
         }
 
         private void DownloadAndUpdate(string url)
