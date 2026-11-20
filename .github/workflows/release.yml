@@ -19,11 +19,21 @@ jobs:
       - name: Restaurar pacotes NuGet
         run: nuget restore "INJETOR MIHAGUE.sln"
 
-      - name: Build Release x64
+      - name: Build Release
         run: |
           msbuild "INJETOR MIHAGUE.sln" `
             /p:Configuration=Release `
-            /p:Platform="x64"
+            /p:Platform="Any CPU"
+
+      - name: Encontrar EXE gerado
+        id: find_exe
+        shell: pwsh
+        run: |
+          $exe = Get-ChildItem -Path "INJETOR MIHAGUE/bin" -Recurse -Filter "*.exe" | `
+                 Where-Object { $_.DirectoryName -like "*Release*" } | `
+                 Select-Object -First 1
+          echo "EXE_PATH=$($exe.FullName)" >> $env:GITHUB_OUTPUT
+          Write-Host "EXE encontrado: $($exe.FullName)"
 
       - name: Pegar versão do AssemblyInfo
         id: get_version
@@ -41,7 +51,7 @@ jobs:
         with:
           tag_name: ${{ steps.get_version.outputs.TAG }}
           name: "MIHAGUEyt Injetor ${{ steps.get_version.outputs.TAG }}"
-          files: "INJETOR MIHAGUE/bin/x64/Release/MIHAGUEyt Injetor.exe"
+          files: ${{ steps.find_exe.outputs.EXE_PATH }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
