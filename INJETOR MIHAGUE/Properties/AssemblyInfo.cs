@@ -26,9 +26,9 @@ using System.Runtime.InteropServices;
 //
 //      Versão Principal
 //      Versão Secundária 
-//      Número da Versão
-//      Revisão
+//      Número da Versão 
+//      Revisão 
 //
-[assembly: AssemblyVersion("1.0.1.0")]
-[assembly: AssemblyFileVersion("1.0.1.0")]
+[assembly: AssemblyVersion("1.0.3.0")]
+[assembly: AssemblyFileVersion("1.0.3.0")]
 
