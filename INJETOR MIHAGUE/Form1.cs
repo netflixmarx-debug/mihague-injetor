@@ -62,6 +62,7 @@ namespace INJETOR_MIHAGUE
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
                     wc.Headers.Add("Cache-Control", "no-cache");
+                    wc.Headers.Add("User-Agent", "MIHAGUEyt-Injetor");
                     string json = wc.DownloadString(VERSION_URL);
 
                     string remoteVersion = ExtractJsonValue(json, "version");
