@@ -1,43 +1,40 @@
 ﻿using System;
 using System.Drawing;
- 
+
 namespace INJETOR_MIHAGUE
-{  
+{
     partial class Form1
     {
         private System.ComponentModel.IContainer components = null;
-        
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
-                components.Dispose(); 
+                components.Dispose();
             base.Dispose(disposing);
-        } 
+        }
 
         #region Codigo gerado pelo Windows Form Designer
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.components       = new System.ComponentModel.Container();
             this.guna2BorderlessForm1 = new Guna.UI2.WinForms.Guna2BorderlessForm(this.components);
-            this.panelHeader    = new System.Windows.Forms.Panel();
-            this.lblTitle       = new System.Windows.Forms.Label();
-            this.panelSep       = new System.Windows.Forms.Panel();
-            this.panelContent   = new System.Windows.Forms.Panel();
-            this.panelBottomSep = new System.Windows.Forms.Panel();
-            this.panelBottom    = new System.Windows.Forms.Panel();
-            this.status         = new System.Windows.Forms.Label();
-            this.lblVersion     = new System.Windows.Forms.Label();
-
+            this.panelHeader      = new System.Windows.Forms.Panel();
+            this.lblTitle         = new System.Windows.Forms.Label();
+            this.panelSep         = new System.Windows.Forms.Panel();
+            this.panelContent     = new System.Windows.Forms.Panel();
+            this.panelBottomSep   = new System.Windows.Forms.Panel();
+            this.panelBottom      = new System.Windows.Forms.Panel();
+            this.status           = new System.Windows.Forms.Label();
+            this.lblVersion       = new System.Windows.Forms.Label();
             this.lblSectionPlayer = new System.Windows.Forms.Label();
-
-            this.lblRow1    = new System.Windows.Forms.Label();
-            this.lblRow1Sub = new System.Windows.Forms.Label();
-            this.toggle1    = new Guna.UI2.WinForms.Guna2ToggleSwitch();
-            this.panelDiv1  = new System.Windows.Forms.Panel();
-
-            this.btnTabEye      = new Guna.UI2.WinForms.Guna2Button();
-            this.btnTabSettings = new Guna.UI2.WinForms.Guna2Button();
+            this.lblRow1          = new System.Windows.Forms.Label();
+            this.lblRow1Sub       = new System.Windows.Forms.Label();
+            this.toggle1          = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.panelDiv1        = new System.Windows.Forms.Panel();
+            this.btnTabDiscord    = new Guna.UI2.WinForms.Guna2Button();
+            this.btnTabYoutube    = new Guna.UI2.WinForms.Guna2Button();
 
             this.panelHeader.SuspendLayout();
             this.panelContent.SuspendLayout();
@@ -57,16 +54,16 @@ namespace INJETOR_MIHAGUE
             this.panelHeader.TabIndex  = 0;
             this.panelHeader.Controls.Add(this.lblTitle);
 
-            // ── lblTitle — "BigZin Store" 3D paint ──────────────────────────
-            this.lblTitle.BackColor  = System.Drawing.Color.FromArgb(18, 18, 18);
-            this.lblTitle.Font       = new System.Drawing.Font("Arial Black", 15F, System.Drawing.FontStyle.Bold);
-            this.lblTitle.ForeColor  = System.Drawing.Color.White;
-            this.lblTitle.Text       = "";
-            this.lblTitle.TextAlign  = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblTitle.Dock       = System.Windows.Forms.DockStyle.Fill;
-            this.lblTitle.Name       = "lblTitle";
-            this.lblTitle.TabIndex   = 0;
-            this.lblTitle.Paint     += new System.Windows.Forms.PaintEventHandler(this.lblTitle_Paint);
+            // ── lblTitle ─────────────────────────────────────────────────────
+            this.lblTitle.BackColor = System.Drawing.Color.FromArgb(18, 18, 18);
+            this.lblTitle.Font      = new System.Drawing.Font("Arial Black", 15F, System.Drawing.FontStyle.Bold);
+            this.lblTitle.ForeColor = System.Drawing.Color.White;
+            this.lblTitle.Text      = "";
+            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTitle.Dock      = System.Windows.Forms.DockStyle.Fill;
+            this.lblTitle.Name      = "lblTitle";
+            this.lblTitle.TabIndex  = 0;
+            this.lblTitle.Paint    += new System.Windows.Forms.PaintEventHandler(this.lblTitle_Paint);
 
             // ── panelSep ─────────────────────────────────────────────────────
             this.panelSep.BackColor = System.Drawing.Color.FromArgb(180, 0, 0);
@@ -83,25 +80,25 @@ namespace INJETOR_MIHAGUE
             this.panelContent.TabIndex  = 2;
 
             // ── lblSectionPlayer ─────────────────────────────────────────────
-            this.lblSectionPlayer.BackColor  = System.Drawing.Color.FromArgb(30, 30, 30);
-            this.lblSectionPlayer.Font       = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblSectionPlayer.ForeColor  = System.Drawing.Color.FromArgb(170, 170, 170);
-            this.lblSectionPlayer.Location   = new System.Drawing.Point(0, 0);
-            this.lblSectionPlayer.Name       = "lblSectionPlayer";
-            this.lblSectionPlayer.Size       = new System.Drawing.Size(340, 30);
-            this.lblSectionPlayer.TabIndex   = 0;
-            this.lblSectionPlayer.Text       = "   Player ESP";
-            this.lblSectionPlayer.TextAlign  = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblSectionPlayer.BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
+            this.lblSectionPlayer.Font      = new System.Drawing.Font("Segoe UI", 9F);
+            this.lblSectionPlayer.ForeColor = System.Drawing.Color.FromArgb(170, 170, 170);
+            this.lblSectionPlayer.Location  = new System.Drawing.Point(0, 0);
+            this.lblSectionPlayer.Name      = "lblSectionPlayer";
+            this.lblSectionPlayer.Size      = new System.Drawing.Size(340, 30);
+            this.lblSectionPlayer.TabIndex  = 0;
+            this.lblSectionPlayer.Text      = "   Painel MIHAGUE MODS";
+            this.lblSectionPlayer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 
             // ── ROW 1 ────────────────────────────────────────────────────────
-            this.lblRow1.BackColor  = System.Drawing.Color.Transparent;
-            this.lblRow1.Font       = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.lblRow1.ForeColor  = System.Drawing.Color.White;
-            this.lblRow1.Location   = new System.Drawing.Point(14, 38);
-            this.lblRow1.Name       = "lblRow1";
-            this.lblRow1.Size       = new System.Drawing.Size(260, 18);
-            this.lblRow1.TabIndex   = 10;
-            this.lblRow1.Text       = "Enable ESP Line";
+            this.lblRow1.BackColor = System.Drawing.Color.Transparent;
+            this.lblRow1.Font      = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.lblRow1.ForeColor = System.Drawing.Color.White;
+            this.lblRow1.Location  = new System.Drawing.Point(14, 38);
+            this.lblRow1.Name      = "lblRow1";
+            this.lblRow1.Size      = new System.Drawing.Size(260, 18);
+            this.lblRow1.TabIndex  = 10;
+            this.lblRow1.Text      = "Enable Painel";
 
             this.lblRow1Sub.BackColor = System.Drawing.Color.Transparent;
             this.lblRow1Sub.Font      = new System.Drawing.Font("Segoe UI", 7.5F);
@@ -149,38 +146,40 @@ namespace INJETOR_MIHAGUE
 
             // ── panelBottom ──────────────────────────────────────────────────
             this.panelBottom.BackColor = System.Drawing.Color.FromArgb(18, 18, 18);
-            this.panelBottom.Controls.Add(this.btnTabEye);
-            this.panelBottom.Controls.Add(this.btnTabSettings);
+            this.panelBottom.Controls.Add(this.btnTabDiscord);
+            this.panelBottom.Controls.Add(this.btnTabYoutube);
             this.panelBottom.Location  = new System.Drawing.Point(0, 156);
             this.panelBottom.Name      = "panelBottom";
             this.panelBottom.Size      = new System.Drawing.Size(340, 50);
             this.panelBottom.TabIndex  = 4;
 
-            // ── btnTabEye ────────────────────────────────────────────────────
-            this.btnTabEye.FillColor            = System.Drawing.Color.FromArgb(180, 0, 0);
-            this.btnTabEye.BorderRadius         = 0;
-            this.btnTabEye.BorderThickness      = 0;
-            this.btnTabEye.Font                 = new System.Drawing.Font("Segoe UI", 16F);
-            this.btnTabEye.ForeColor            = System.Drawing.Color.White;
-            this.btnTabEye.HoverState.FillColor = System.Drawing.Color.FromArgb(210, 20, 20);
-            this.btnTabEye.Location             = new System.Drawing.Point(0, 0);
-            this.btnTabEye.Name                 = "btnTabEye";
-            this.btnTabEye.Size                 = new System.Drawing.Size(170, 50);
-            this.btnTabEye.TabIndex             = 0;
-            this.btnTabEye.Text                 = "o";
+            // ── btnTabDiscord ────────────────────────────────────────────────
+            this.btnTabDiscord.FillColor            = System.Drawing.Color.FromArgb(88, 101, 242);
+            this.btnTabDiscord.BorderRadius         = 0;
+            this.btnTabDiscord.BorderThickness      = 0;
+            this.btnTabDiscord.Font                 = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
+            this.btnTabDiscord.ForeColor            = System.Drawing.Color.White;
+            this.btnTabDiscord.HoverState.FillColor = System.Drawing.Color.FromArgb(110, 120, 255);
+            this.btnTabDiscord.Location             = new System.Drawing.Point(0, 0);
+            this.btnTabDiscord.Name                 = "btnTabDiscord";
+            this.btnTabDiscord.Size                 = new System.Drawing.Size(170, 50);
+            this.btnTabDiscord.TabIndex             = 0;
+            this.btnTabDiscord.Text                 = "Discord";
+            this.btnTabDiscord.Click               += new System.EventHandler(this.btnTabDiscord_Click);
 
-            // ── btnTabSettings ───────────────────────────────────────────────
-            this.btnTabSettings.FillColor            = System.Drawing.Color.FromArgb(30, 30, 30);
-            this.btnTabSettings.BorderRadius         = 0;
-            this.btnTabSettings.BorderThickness      = 0;
-            this.btnTabSettings.Font                 = new System.Drawing.Font("Segoe UI", 16F);
-            this.btnTabSettings.ForeColor            = System.Drawing.Color.FromArgb(180, 180, 180);
-            this.btnTabSettings.HoverState.FillColor = System.Drawing.Color.FromArgb(50, 50, 50);
-            this.btnTabSettings.Location             = new System.Drawing.Point(170, 0);
-            this.btnTabSettings.Name                 = "btnTabSettings";
-            this.btnTabSettings.Size                 = new System.Drawing.Size(170, 50);
-            this.btnTabSettings.TabIndex             = 1;
-            this.btnTabSettings.Text                 = "#";
+            // ── btnTabYoutube ────────────────────────────────────────────────
+            this.btnTabYoutube.FillColor            = System.Drawing.Color.FromArgb(255, 0, 0);
+            this.btnTabYoutube.BorderRadius         = 0;
+            this.btnTabYoutube.BorderThickness      = 0;
+            this.btnTabYoutube.Font                 = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
+            this.btnTabYoutube.ForeColor            = System.Drawing.Color.White;
+            this.btnTabYoutube.HoverState.FillColor = System.Drawing.Color.FromArgb(220, 30, 30);
+            this.btnTabYoutube.Location             = new System.Drawing.Point(170, 0);
+            this.btnTabYoutube.Name                 = "btnTabYoutube";
+            this.btnTabYoutube.Size                 = new System.Drawing.Size(170, 50);
+            this.btnTabYoutube.TabIndex             = 1;
+            this.btnTabYoutube.Text                 = "YouTube";
+            this.btnTabYoutube.Click               += new System.EventHandler(this.btnTabYoutube_Click);
 
             // ── status ───────────────────────────────────────────────────────
             this.status.BackColor  = System.Drawing.Color.FromArgb(22, 22, 22);
@@ -195,11 +194,11 @@ namespace INJETOR_MIHAGUE
 
             // ── lblVersion ───────────────────────────────────────────────────
             this.lblVersion.BackColor  = System.Drawing.Color.FromArgb(22, 22, 22);
-            this.lblVersion.Font       = new System.Drawing.Font("Segoe UI", 7.5F);
-            this.lblVersion.ForeColor  = System.Drawing.Color.FromArgb(80, 80, 80);
-            this.lblVersion.Location   = new System.Drawing.Point(220, 206);
+            this.lblVersion.Font       = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblVersion.ForeColor  = System.Drawing.Color.FromArgb(0, 200, 80);
+            this.lblVersion.Location   = new System.Drawing.Point(200, 206);
             this.lblVersion.Name       = "lblVersion";
-            this.lblVersion.Size       = new System.Drawing.Size(120, 20);
+            this.lblVersion.Size       = new System.Drawing.Size(140, 20);
             this.lblVersion.TabIndex   = 6;
             this.lblVersion.Text       = "v1.0.1";
             this.lblVersion.TextAlign  = System.Drawing.ContentAlignment.MiddleRight;
@@ -245,8 +244,8 @@ namespace INJETOR_MIHAGUE
         private System.Windows.Forms.Panel             panelDiv1;
         private System.Windows.Forms.Panel             panelBottomSep;
         private System.Windows.Forms.Panel             panelBottom;
-        private Guna.UI2.WinForms.Guna2Button          btnTabEye;
-        private Guna.UI2.WinForms.Guna2Button          btnTabSettings;
+        private Guna.UI2.WinForms.Guna2Button          btnTabDiscord;
+        private Guna.UI2.WinForms.Guna2Button          btnTabYoutube;
         private System.Windows.Forms.Label             status;
         private System.Windows.Forms.Label             lblVersion;
     }

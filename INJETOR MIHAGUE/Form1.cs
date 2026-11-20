@@ -216,7 +216,20 @@ namespace INJETOR_MIHAGUE
         }
 
         // ════════════════════════════════════════════════════════════════════
-        // TOGGLE 1 — Enable ESP Line → injeta e fecha ao sucesso
+        // BOTÕES — Discord e YouTube
+        // ════════════════════════════════════════════════════════════════════
+        private void btnTabDiscord_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://discord.gg/HrQcJvNvuc");
+        }
+
+        private void btnTabYoutube_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.youtube.com/@mihagueyt");
+        }
+
+        // ════════════════════════════════════════════════════════════════════
+        // TOGGLE 1 — Enable Painel → injeta e fecha ao sucesso
         // ════════════════════════════════════════════════════════════════════
         private void toggle1_CheckedChanged(object sender, EventArgs e)
         {
