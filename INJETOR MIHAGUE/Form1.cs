@@ -22,6 +22,10 @@ namespace INJETOR_MIHAGUE
         {
             InitializeComponent();
 
+            // Versão automática do AssemblyInfo
+            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            lblVersion.Text = $"v{version.Major}.{version.Minor}.{version.Build}  ";
+
             // Carrega o ícone embutido no assembly
             using (Stream s = Assembly.GetExecutingAssembly()
                                       .GetManifestResourceStream("INJETOR_MIHAGUE.MIHAGUEyt_Corp.ico"))

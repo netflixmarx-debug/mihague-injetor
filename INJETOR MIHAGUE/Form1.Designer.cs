@@ -27,6 +27,7 @@ namespace INJETOR_MIHAGUE
             this.panelBottomSep = new System.Windows.Forms.Panel();
             this.panelBottom    = new System.Windows.Forms.Panel();
             this.status         = new System.Windows.Forms.Label();
+            this.lblVersion     = new System.Windows.Forms.Label();
 
             this.lblSectionPlayer = new System.Windows.Forms.Label();
 
@@ -187,10 +188,21 @@ namespace INJETOR_MIHAGUE
             this.status.ForeColor  = System.Drawing.Color.FromArgb(160, 160, 160);
             this.status.Location   = new System.Drawing.Point(0, 206);
             this.status.Name       = "status";
-            this.status.Size       = new System.Drawing.Size(340, 20);
+            this.status.Size       = new System.Drawing.Size(220, 20);
             this.status.TabIndex   = 5;
             this.status.Text       = "  Aguardando...";
             this.status.TextAlign  = System.Drawing.ContentAlignment.MiddleLeft;
+
+            // ── lblVersion ───────────────────────────────────────────────────
+            this.lblVersion.BackColor  = System.Drawing.Color.FromArgb(22, 22, 22);
+            this.lblVersion.Font       = new System.Drawing.Font("Segoe UI", 7.5F);
+            this.lblVersion.ForeColor  = System.Drawing.Color.FromArgb(80, 80, 80);
+            this.lblVersion.Location   = new System.Drawing.Point(220, 206);
+            this.lblVersion.Name       = "lblVersion";
+            this.lblVersion.Size       = new System.Drawing.Size(120, 20);
+            this.lblVersion.TabIndex   = 6;
+            this.lblVersion.Text       = "v1.0.1";
+            this.lblVersion.TextAlign  = System.Drawing.ContentAlignment.MiddleRight;
 
             // ── Form1 ────────────────────────────────────────────────────────
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -203,6 +215,7 @@ namespace INJETOR_MIHAGUE
             this.Controls.Add(this.panelBottomSep);
             this.Controls.Add(this.panelBottom);
             this.Controls.Add(this.status);
+            this.Controls.Add(this.lblVersion);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name            = "Form1";
             this.Text            = "MIHAGUE INJECTOR";
@@ -235,5 +248,6 @@ namespace INJETOR_MIHAGUE
         private Guna.UI2.WinForms.Guna2Button          btnTabEye;
         private Guna.UI2.WinForms.Guna2Button          btnTabSettings;
         private System.Windows.Forms.Label             status;
+        private System.Windows.Forms.Label             lblVersion;
     }
 }
