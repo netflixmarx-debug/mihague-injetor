@@ -95,7 +95,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MIHAGUEytt.dll" />
+    <EmbeddedResource Include="MIHAGUEyt.dll" />
     <EmbeddedResource Include="MIHAGUEyt_Corp.ico" />
     <EmbeddedResource Include="Guna.UI2.dll">
       <LogicalName>INJETOR_MIHAGUE.Guna.UI2.dll</LogicalName>
