@@ -68,6 +68,8 @@ namespace INJETOR_MIHAGUE
                         using (WebClient wc = new WebClient())
                         {
                             wc.Headers.Add("User-Agent", "MIHAGUEyt-Updater/1.0");
+                            wc.Headers.Add("Accept", "application/octet-stream");
+                            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                             wc.DownloadFile(downloadUrl, tempNew);
                         }
 
