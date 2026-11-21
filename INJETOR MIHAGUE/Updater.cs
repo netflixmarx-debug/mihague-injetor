@@ -65,13 +65,15 @@ namespace INJETOR_MIHAGUE
                         string tempNew  = selfPath + ".new.exe";
                         string batPath  = Path.Combine(Path.GetTempPath(), "mihague_upd.bat");
 
-                        using (WebClient wc = new WebClient())
-                        {
-                            wc.Headers.Add("User-Agent", "MIHAGUEyt-Updater/1.0");
-                            wc.Headers.Add("Accept", "application/octet-stream");
-                            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                            wc.DownloadFile(downloadUrl, tempNew);
-                        }
+                        // HttpWebRequest segue redirecionamentos do GitHub Releases
+                        HttpWebRequest req = (HttpWebRequest)WebRequest.Create(downloadUrl);
+                        req.UserAgent = "MIHAGUEyt-Updater/1.0";
+                        req.AllowAutoRedirect = true;
+                        req.Timeout = 60000;
+                        using (HttpWebResponse resp = (HttpWebResponse)req.GetResponse())
+                        using (Stream src  = resp.GetResponseStream())
+                        using (FileStream dst = File.Create(tempNew))
+                            src.CopyTo(dst);
 
                         string bat =
                             "@echo off\r\n" +
