@@ -7,7 +7,7 @@
     <ProjectGuid>{84B1AA0D-5DE1-4549-B9E1-3C22E07F2A5C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>INJETOR_MIHAGUE</RootNamespace>
-    <AssemblyName>MIHAGUEyt Injetor</AssemblyName>
+    <AssemblyName>MIHAGUEyt-Injetor</AssemblyName>
     <ApplicationIcon>MIHAGUEyt_Corp.ico</ApplicationIcon>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

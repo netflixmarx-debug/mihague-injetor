@@ -60,7 +60,7 @@ jobs:
         run: |
           $version = "${{ steps.get_version.outputs.VERSION }}"
           $tag     = "${{ steps.get_version.outputs.TAG }}"
-          $url     = "https://github.com/netflixmarx-debug/mihague-injetor/releases/download/$tag/MIHAGUEyt%20Injetor.exe"
+          $url     = "https://github.com/netflixmarx-debug/mihague-injetor/releases/download/$tag/MIHAGUEyt-Injetor.exe"
           $json    = "{`n  `"version`": `"$version`",`n  `"url`": `"$url`"`n}`n"
           [System.IO.File]::WriteAllText("version.json", $json)
 
