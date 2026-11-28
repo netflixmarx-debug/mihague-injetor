@@ -146,9 +146,9 @@ namespace INJETOR_MIHAGUE
         // ════════════════════════════════════════════════════════════════════
         private string ExtractEmbeddedDll()
         {
-            string tempDllPath = Path.Combine(Path.GetTempPath(), "MIHAGUEytee.dll");
+            string tempDllPath = Path.Combine(Path.GetTempPath(), "MIHAGUE MODS.dll");
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("INJETOR_MIHAGUE.MIHAGUEytee.dll"))
+                                           .GetManifestResourceStream("INJETOR_MIHAGUE.MIHAGUE MODS.dll"))
             {
                 if (stream == null)
                     throw new Exception("DLL embutida não encontrada no recurso.");
